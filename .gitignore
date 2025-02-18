@@ -1,0 +1,17 @@
+# Ignore Maven build artifacts
+target/
+.idea/
+*.iml
+*.class
+*.log
+*.swp
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+
+# Ignore IDE specific files
+.project
+.classpath
+.settings/
