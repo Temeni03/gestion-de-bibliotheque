@@ -91,7 +91,7 @@
 			}
 			
 			button:hover {
-			    background: linear-gradient(to right, #7d24d1, #a94ac8); /* Keeping the purple gradient hover */
+			    background: linear-gradient(to right, #1e90ff, #0fccce);
 			}
 			
 			p {

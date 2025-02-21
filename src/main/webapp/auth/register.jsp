@@ -13,7 +13,7 @@
 		    background-color: #f5f5f5;
 			}
 
-		.login-container {
+		.register-container {
 		    background-color: white;
 		    padding: 20px;
 		    border-radius: 10px;
@@ -109,35 +109,35 @@
     </style>
 </head>
 <body>
-	<div class="login-container">
-	        <h1>Créer un compte</h1>
-	        <form id="register-form" method="post" action="/register">
-	            <div class="form-group">
-	                <label for="username">Username:</label>
-	                <input type="text" id="username" name="username" required>
-	            </div>
-	            <div class="form-group">
-	                <label for="nom">Nom:</label>
-	                <input type="text" id="nom" name="nom" required>
-	            </div>
-	            <div class="form-group">
-	                <label for="prenom">Prenom:</label>
-	                <input type="text" id="prenom" name="prenom" required>
-	            </div>
-	            <div class="form-group">
-	                <label for="username">Matricule:</label>
-	                <input type="text" id="matricule" name="matricule" required>
-	            </div>
-	            <div class="form-group">
-	                <label for="password">Password:</label>
-	                <input type="password" id="password" name="password" required>
-	            </div>
-	            
-	            
-	            <button type="submit">Créer un compte</button>
-	            <p>Vous avez déjà un compte ? <a href="${pageContext.request.contextPath}/auth/login.jsp">connexion</a></p>
-	        </form>
-    	</div>
+	<div class="register-container">
+        <h1>Créer un compte</h1>
+        <form id="register-form" method="post" action="/register">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="nom">Nom:</label>
+                <input type="text" id="nom" name="nom" required>
+            </div>
+            <div class="form-group">
+                <label for="prenom">Prenom:</label>
+                <input type="text" id="prenom" name="prenom" required>
+            </div>
+            <div class="form-group">
+                <label for="username">Matricule:</label>
+                <input type="text" id="matricule" name="matricule" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            
+            
+            <button type="submit">Créer un compte</button>
+            <p>Vous avez déjà un compte ? <a href="${pageContext.request.contextPath}/auth/login.jsp">connexion</a></p>
+        </form>
+   	</div>
   	<script>
 			const registerForm = document.getElementById("register-form");
 			registerForm.addEventListener("submit", (e) => {
