@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Gestion des bibliothécaires</title>
+    <title>Gestion des livres</title>
     <style>
 		@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 		*{
@@ -183,11 +183,6 @@
 		  .nav-links li{
 		    margin: 15px 10px;
 		  }
-		  .nav-links li a{
-		    padding: 0 20px;
-		    display: block;
-		    font-size: 20px;
-		  }
 		  .nav-links .drop-menu{
 		    position: static;
 		    opacity: 1;
@@ -267,7 +262,7 @@
 		}
 		
 		.container {
-		  max-width: 1000px;
+		  max-width: 1100px;
 		  margin-left: auto;
 		  margin-right: auto;
 		  padding-left: 10px;
@@ -356,19 +351,25 @@
 		    box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.1);
 		  }
 		  .col-1 {
-		    flex-basis: 20%;
+		    flex-basis: 15%;
 		  }
 		  .col-2 {
 		    flex-basis: 20%;
 		  }
 		  .col-3 {
-		    flex-basis: 20%;
+		    flex-basis: 15%;
 		  }
 		  .col-4 {
-		    flex-basis: 20%;
+		    flex-basis: 10%;
 		  }
 		  .col-5 {
-		    flex-basis: 20%;
+		    flex-basis: 10%;
+		  }
+		  .col-6 {
+		    flex-basis: 15%;
+		  }
+		  .col-7 {
+		    flex-basis: 15%;
 		  }
 		  .text-center {
 		  	text-align: center;
@@ -475,6 +476,7 @@
 		}
 		
 		input[type="text"],
+		input[type="number"],
 		input[type="password"] {
 		    width: 100%;
 		    padding: 8px;
@@ -531,9 +533,9 @@
             <input type="radio" name="slider" id="close-btn">
             <ul class="nav-links">
                 <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
-                <li><a href="${pageContext.request.contextPath}/books/catalog.jsp">Livres</a></li>
+                <li><a href="${pageContext.request.contextPath}/books/catalog.jsp" class='active'>Livres</a></li>
                 <li><a href="${pageContext.request.contextPath}/loan/history.jsp">Historiques</a></li>
-                <li><a href="${pageContext.request.contextPath}/users/librarians.jsp" class="active">Bibliothécaires</a></li>
+                <li><a href="${pageContext.request.contextPath}/users/librarians.jsp">Bibliothécaires</a></li>
                 <li><a href="${pageContext.request.contextPath}/auth/logout.jsp">Déconnexion</a></li>
             </ul>
             <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
@@ -541,77 +543,79 @@
     </nav>
 
     <div class="container">
-        <h2>Liste des bibliothécaires</h2>
-        <a class="add-librarian-btn" href="#demo-modal">Ajouter</a>
+        <h2>Liste des livres</h2>
+        <a class="add-librarian-btn" href="#add-book-modal">Ajouter</a>
         <ul class="responsive-table" id="responsive-table">
             <li class="table-header">
-                <div class="col col-1">Username</div>
-                <div class="col col-2">Nom</div>
-                <div class="col col-3">Prenom</div>
-                <div class="col col-4">Matricule</div>
-                <div class="col col-5">Actions</div>
+                <div class="col col-1">Titre</div>
+                <div class="col col-2">Auteur</div>
+                <div class="col col-3">ISBN</div>
+                <div class="col col-4">Année</div>
+                <div class="col col-5">Exemplaires Totales</div>
+                <div class="col col-6">Exemplaires Disponibles</div>
+                <div class="col col-7"></div>
             </li>
         </ul>
     </div>
 
-    <!-- Add Librarian Modal -->
-    <div id="demo-modal" class="modal">
+    <!-- Add Book Modal -->
+    <div id="add-book-modal" class="modal">
         <div class="modal__content">
             <div class="register-container">
-                <h1>Nouveau Bibliothécaire</h1>
-                <form id="register-form" method="post">
+                <h1>Nouveau Livre</h1>
+                <form id="add-book-form" method="post">
                     <div class="form-group">
-                        <label for="username">Username:</label>
-                        <input type="text" id="username" name="username" required>
+                        <label for="titre">Titre:</label>
+                        <input type="text" id="titre" name="titre" required>
                     </div>
                     <div class="form-group">
-                        <label for="nom">Nom:</label>
-                        <input type="text" id="nom" name="nom" required>
+                        <label for="auteur">Auteur:</label>
+                        <input type="text" id="auteur" name="auteur" required>
                     </div>
                     <div class="form-group">
-                        <label for="prenom">Prenom:</label>
-                        <input type="text" id="prenom" name="prenom" required>
+                        <label for="isbn">ISBN:</label>
+                        <input type="text" id="isbn" name="isbn" required>
                     </div>
                     <div class="form-group">
-                        <label for="matricule">Matricule:</label>
-                        <input type="text" id="matricule" name="matricule" required>
+                        <label for="anneePublication">Année de Publication:</label>
+                        <input type="number" id="anneePublication" name="anneePublication" required>
                     </div>
                     <div class="form-group">
-                        <label for="password">Password:</label>
-                        <input type="password" id="password" name="password" required>
+                        <label for="exemplairesTotal">Nombre d'exemplaires:</label>
+                        <input type="number" id="exemplairesTotal" name="exemplairesTotal" required>
                     </div>
-                    <button type="submit">Créer un compte</button>
+                    <button type="submit">Ajouter le livre</button>
                 </form>
             </div>
-            <a href="#" class="modal__close">&times;</a>
+            <a href="#" class="modal__close">×</a>
         </div>
     </div>
 
-    <!-- Edit Librarian Modal -->
-    <div id="edit-modal" class="modal">
+    <!-- Edit Book Modal -->
+    <div id="edit-book-modal" class="modal">
         <div class="modal__content">
             <div class="register-container">
-                <h1>Modifier Bibliothécaire</h1>
-                <form id="edit-form" method="post">
+                <h1>Modifier Livre</h1>
+                <form id="edit-book-form" method="post">
                     <div class="form-group">
-                        <label for="edit-username">Username:</label>
-                        <input type="text" id="edit-username" name="username" readonly>
+                        <label for="edit-titre">Titre:</label>
+                        <input type="text" id="edit-titre" name="titre" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit-nom">Nom:</label>
-                        <input type="text" id="edit-nom" name="nom" required>
+                        <label for="edit-auteur">Auteur:</label>
+                        <input type="text" id="edit-auteur" name="auteur" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit-prenom">Prenom:</label>
-                        <input type="text" id="edit-prenom" name="prenom" required>
+                        <label for="edit-isbn">ISBN:</label>
+                        <input type="text" id="edit-isbn" name="isbn" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit-matricule">Matricule:</label>
-                        <input type="text" id="edit-matricule" name="matricule" required>
+                        <label for="edit-anneePublication">Année de Publication:</label>
+                        <input type="number" id="edit-anneePublication" name="anneePublication" required>
                     </div>
-                    <div class="form-group hidden">
-                        <label for="edit-password">Nouveau Password (facultatif):</label>
-                        <input type="password" id="edit-password" name="password">
+                    <div class="form-group">
+                        <label for="edit-exemplairesTotal">Nombre d'exemplaires total:</label>
+                        <input type="number" id="edit-exemplairesTotal" name="exemplairesTotal" required>
                     </div>
                     <button type="submit">Mettre à jour</button>
                 </form>
@@ -620,14 +624,14 @@
         </div>
     </div>
 
-    <!-- Delete Librarian Modal -->
-    <div id="delete-modal" class="modal">
+    <!-- Delete Book Modal -->
+    <div id="delete-book-modal" class="modal">
         <div class="modal__content">
             <div class="register-container">
-                <h1>Supprimer un bibliothécaire</h1>
-                <form id="delete-form" class="delete-form" method="post">
+                <h1>Supprimer un livre</h1>
+                <form id="delete-book-form" class="delete-form" method="post">
                     <div class="form-group">
-                        <div>Êtes-vous sûr de vouloir supprimer ce bibliothécaire ?</div>
+                        <div>Êtes-vous sûr de vouloir supprimer ce livre ?</div>
                     </div>
                     <div class="delete-group-buttons">
 	                    <button type="button" id="cancel-delete-btn" class="delete-button-cancel">Non</button>
@@ -642,82 +646,90 @@
     <script>
         const username = localStorage.getItem('username');
         const role = localStorage.getItem('role');
-        if (!username || role !== 'ADMIN') {
+        if (!username) {
             window.location.href = "${pageContext.request.contextPath}/auth/login.jsp";
         } else {
             const table = document.getElementById('responsive-table');
-            fetch("${pageContext.request.contextPath}/api/users/librarians/", {
+            fetch("http://localhost:8080/gestion-de-bibliotheque/api/books", {
                 method: "GET",
                 headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Basic admin:admin"
+                    "Content-Type": "application/json"
                 },
             })
             .then((response) => response.json())
             .then((data) => {
                 if (data.length > 0) {
                     for (let item of data) {
-                        let { username, nom, prenom, matricule, password } = item;
+                        let { id, titre, auteur, isbn, anneePublication, exemplairesTotal, exemplairesDisponibles } = item;
                         let listItem = document.createElement("li");
-                        let usernameDiv = document.createElement('div');
-                        let nomDiv = document.createElement('div');
-                        let prenomDiv = document.createElement('div');
-                        let matriculeDiv = document.createElement('div');
+                        let titreDiv = document.createElement('div');
+                        let auteurDiv = document.createElement('div');
+                        let isbnDiv = document.createElement('div');
+                        let anneeDiv = document.createElement('div');
+                        let exemplairesTotalDiv = document.createElement('div');
+                        let exemplairesDisponiblesDiv = document.createElement('div');
                         let actionsDiv = document.createElement('div');
                         let editBtn = document.createElement('a');
                         let deleteBtn = document.createElement('a');
 
                         listItem.classList.add('table-row');
-                        usernameDiv.classList.add('col', 'col-1');
-                        usernameDiv.textContent = username;
-                        nomDiv.classList.add('col', 'col-2');
-                        nomDiv.textContent = nom;
-                        prenomDiv.classList.add('col', 'col-3');
-                        prenomDiv.textContent = prenom;
-                        matriculeDiv.classList.add('col', 'col-4');
-                        matriculeDiv.textContent = matricule;
-                        actionsDiv.classList.add('col', 'col-5');
+                        titreDiv.classList.add('col', 'col-1');
+                        titreDiv.textContent = titre;
+                        auteurDiv.classList.add('col', 'col-2');
+                        auteurDiv.textContent = auteur;
+                        isbnDiv.classList.add('col', 'col-3');
+                        isbnDiv.textContent = isbn;
+                        anneeDiv.classList.add('col', 'col-4');
+                        anneeDiv.textContent = anneePublication;
+                        exemplairesTotalDiv.classList.add('col', 'col-5');
+                        exemplairesTotalDiv.textContent = exemplairesTotal;
+                        exemplairesDisponiblesDiv.classList.add('col', 'col-6');
+                        exemplairesDisponiblesDiv.textContent = exemplairesDisponibles;
+                        actionsDiv.classList.add('col', 'col-7');
                         editBtn.classList.add('edit-librarian-btn');
                         deleteBtn.classList.add('delete-librarian-btn');
 
-                        editBtn.href = '#edit-modal';
+                        editBtn.href = '#edit-book-modal';
                         editBtn.textContent = 'Modifier';
-                        deleteBtn.href = '#delete-modal';
+                        deleteBtn.href = '#delete-book-modal';
                         deleteBtn.textContent = 'Supprimer';
 
-                        editBtn.dataset.username = username;
-                        editBtn.dataset.nom = nom;
-                        editBtn.dataset.prenom = prenom;
-                        editBtn.dataset.matricule = matricule;
-                        editBtn.dataset.password = password;
+                        editBtn.dataset.id = id;
+                        editBtn.dataset.titre = titre;
+                        editBtn.dataset.auteur = auteur;
+                        editBtn.dataset.isbn = isbn;
+                        editBtn.dataset.anneePublication = anneePublication;
+                        editBtn.dataset.exemplairesTotal = exemplairesTotal;
+                        editBtn.dataset.exemplairesDisponibles = exemplairesDisponibles;
 
-                        deleteBtn.dataset.username = username;
+                        deleteBtn.dataset.id = id;
 
                         actionsDiv.append(editBtn, deleteBtn);
-                        listItem.append(usernameDiv, nomDiv, prenomDiv, matriculeDiv, actionsDiv);
+                        listItem.append(titreDiv, auteurDiv, isbnDiv, anneeDiv, exemplairesTotalDiv, exemplairesDisponiblesDiv, actionsDiv);
                         table.append(listItem);
                     }
 
                     document.querySelectorAll('.edit-librarian-btn').forEach(btn => {
                         btn.addEventListener('click', function(e) {
-                            document.getElementById('edit-username').value = this.dataset.username;
-                            document.getElementById('edit-nom').value = this.dataset.nom;
-                            document.getElementById('edit-prenom').value = this.dataset.prenom;
-                            document.getElementById('edit-matricule').value = this.dataset.matricule;
-                            document.getElementById('edit-password').value = this.dataset.password;
+                            document.getElementById('edit-titre').value = this.dataset.titre;
+                            document.getElementById('edit-auteur').value = this.dataset.auteur;
+                            document.getElementById('edit-isbn').value = this.dataset.isbn;
+                            document.getElementById('edit-anneePublication').value = this.dataset.anneePublication;
+                            document.getElementById('edit-exemplairesTotal').value = this.dataset.exemplairesTotal;
+                            this.dataset.originalId = this.dataset.id;
                         });
                     });
 
                     document.querySelectorAll('.delete-librarian-btn').forEach(btn => {
                         btn.addEventListener('click', function(e) {
-                            const librarianUsername = this.dataset.username;
-                            document.getElementById('delete-form').dataset.username = librarianUsername;
+                            const bookId = this.dataset.id;
+                            document.getElementById('delete-book-form').dataset.id = bookId;
                         });
                     });
                 } else {
                     let emptyDiv = document.createElement('div');
                     emptyDiv.classList.add('text-center');
-                    emptyDiv.textContent = "Il n'y a pas encore des bibliothécaires";
+                    emptyDiv.textContent = "Il n'y a pas encore de livres";
                     table.append(emptyDiv);
                 }
             })
@@ -726,29 +738,29 @@
             });
         }
 
-        const registerForm = document.getElementById("register-form");
-        registerForm.addEventListener("submit", (e) => {
+        const addBookForm = document.getElementById("add-book-form");
+        addBookForm.addEventListener("submit", (e) => {
             e.preventDefault();
-            const username = document.getElementById("username").value;
-            const nom = document.getElementById("nom").value;
-            const prenom = document.getElementById("prenom").value;
-            const matricule = document.getElementById("matricule").value;
-            const password = document.getElementById("password").value;
+            const id = "BOOK-" + Date.now();
+            const titre = document.getElementById("titre").value;
+            const auteur = document.getElementById("auteur").value;
+            const isbn = document.getElementById("isbn").value;
+            const anneePublication = document.getElementById("anneePublication").value;
+            const exemplairesTotal = document.getElementById("exemplairesTotal").value;
 
-            fetch("${pageContext.request.contextPath}/api/users/librarians/", {
+            fetch("${pageContext.request.contextPath}/api/books", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": "Basic admin:admin"
+                    "Authorization": "Basic " + username + ":" + localStorage.getItem('password'),
                 },
-                body: JSON.stringify({ username, nom, prenom, matricule, password }),
+                body: JSON.stringify({ id, titre, auteur, isbn, anneePublication, exemplairesTotal: Number(exemplairesTotal), exemplairesDisponibles: Number(exemplairesTotal) }),
             })
             .then((response) => {
-                if (response.status == 409) {
-                    alert("Un utilisateur existe déjà avec cet username");
-                }
-                if (response.status == 201) {
-                    window.location.href = "${pageContext.request.contextPath}/users/librarians.jsp";
+                if (response.status === 201) {
+                    window.location.href = "${pageContext.request.contextPath}/books/catalog.jsp"; 
+                } else {
+                    alert("Erreur lors de l'ajout du livre");
                 }
                 return response.json();
             })
@@ -757,31 +769,29 @@
             });
         });
 
-        const editForm = document.getElementById("edit-form");
-        editForm.addEventListener("submit", (e) => {
+        const editBookForm = document.getElementById("edit-book-form");
+        editBookForm.addEventListener("submit", (e) => {
             e.preventDefault();
-            const username = document.getElementById("edit-username").value;
-            const nom = document.getElementById("edit-nom").value;
-            const prenom = document.getElementById("edit-prenom").value;
-            const matricule = document.getElementById("edit-matricule").value;
-            const password = document.getElementById("edit-password").value;
-
-            const updateData = { username, nom, prenom, matricule, password };
-            const url = "${pageContext.request.contextPath}/api/users/librarians/" + username;
-
-            fetch(url, {
+            const titre = document.getElementById("edit-titre").value;
+            const auteur = document.getElementById("edit-auteur").value;
+            const isbn = document.getElementById("edit-isbn").value;
+            const anneePublication = document.getElementById("edit-anneePublication").value;
+            const exemplairesTotal = document.getElementById("edit-exemplairesTotal").value;
+            const originalId = document.querySelector('.edit-librarian-btn[href="#edit-book-modal"]:last-child').dataset.originalId;
+            
+            fetch("${pageContext.request.contextPath}/api/books/" + originalId, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": "Basic admin:admin"
+                    "Authorization": "Basic " + username + ":" + localStorage.getItem('password'),
                 },
-                body: JSON.stringify(updateData),
+                body: JSON.stringify({id: originalId, titre, auteur, isbn, anneePublication, exemplairesTotal: Number(exemplairesTotal), exemplairesDisponibles: Number(exemplairesTotal) }),
             })
             .then((response) => {
                 if (response.ok) {
-                    window.location.href = "${pageContext.request.contextPath}/users/librarians.jsp";
+                    window.location.href = "${pageContext.request.contextPath}/books/catalog.jsp"; 
                 } else {
-                    alert("Erreur lors de la mise à jour");
+                    alert("Erreur lors de la mise à jour du livre");
                 }
                 return response.json();
             })
@@ -790,23 +800,23 @@
             });
         });
 
-        const deleteForm = document.getElementById("delete-form");
-        deleteForm.addEventListener("submit", (e) => {
+        const deleteBookForm = document.getElementById("delete-book-form");
+        deleteBookForm.addEventListener("submit", (e) => {
             e.preventDefault();
-            const librarianUsername = deleteForm.dataset.username;
+            const bookId = deleteBookForm.dataset.id;
 
-            fetch("${pageContext.request.contextPath}/api/users/librarians/" + librarianUsername, {
+            fetch("${pageContext.request.contextPath}/api/books/" + bookId, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": "Basic admin:admin"
+                    "Authorization": "Basic " + username + ":" + localStorage.getItem('password'),
                 },
             })
             .then((response) => {
                 if (response.ok) {
-                    window.location.href = "${pageContext.request.contextPath}/users/librarians.jsp";
+                    window.location.href = "${pageContext.request.contextPath}/books/catalog.jsp"; 
                 } else {
-                    alert("Erreur lors de la suppression");
+                    alert("Erreur lors de la suppression du livre");
                 }
             })
             .catch((error) => {
@@ -815,7 +825,7 @@
         });
 
         document.getElementById('cancel-delete-btn').addEventListener('click', () => {
-            window.location.href = "${pageContext.request.contextPath}/users/librarians.jsp";
+            window.location.href = "${pageContext.request.contextPath}/books/catalog.jsp";
         });
     </script>
 </body>

@@ -41,7 +41,7 @@
 		  list-style: none;
 		}
 		.nav-links li a{
-		  color: #f2f2f2;
+		  color: #ddd;
 		  text-decoration: none;
 		  font-size: 18px;
 		  font-weight: 500;
@@ -49,8 +49,11 @@
 		  border-radius: 5px;
 		  transition: all 0.3s ease;
 		}
+		.nav-links li a.active {
+			color: #f2f2f2;
+		}
 		.nav-links li a:hover{
-		  background: #1e90ff;
+		  color: #f2f2f2;
 		}
 		.nav-links .mobile-item{
 		  display: none;
@@ -289,7 +292,7 @@
 	    <input type="radio" name="slider" id="close-btn">
 	    <ul class="nav-links">
 	      <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
-	      <li><a href="${pageContext.request.contextPath}/book/catalog.jsp">Livres</a></li>
+	      <li><a href="${pageContext.request.contextPath}/books/catalog.jsp">Livres</a></li>
 	      <li><a href="${pageContext.request.contextPath}/loan/history.jsp">Historiques</a></li>
 	      <li><a  href="${pageContext.request.contextPath}/users/librarians.jsp">Bibliothécaires</a></li>
 	      <li><a  href="${pageContext.request.contextPath}/auth/logout.jsp">Déconnexion</a></li>
