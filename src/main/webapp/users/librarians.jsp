@@ -532,7 +532,7 @@
             <ul class="nav-links">
                 <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
                 <li><a href="${pageContext.request.contextPath}/books/catalog.jsp">Livres</a></li>
-                <li><a href="${pageContext.request.contextPath}/loan/history.jsp">Historiques</a></li>
+                <li><a href="${pageContext.request.contextPath}/loan/demandes.jsp">Demandes</a></li>
                 <li><a href="${pageContext.request.contextPath}/users/librarians.jsp" class="active">Bibliothécaires</a></li>
                 <li><a href="${pageContext.request.contextPath}/auth/logout.jsp">Déconnexion</a></li>
             </ul>
@@ -642,9 +642,11 @@
     <script>
         const username = localStorage.getItem('username');
         const role = localStorage.getItem('role');
-        if (!username || role !== 'ADMIN') {
+        if (!username) {
             window.location.href = "${pageContext.request.contextPath}/auth/login.jsp";
-        } else {
+        } else if (role !== 'ADMIN') {
+			window.history.back();
+		} else {
             const table = document.getElementById('responsive-table');
             fetch("${pageContext.request.contextPath}/api/users/librarians/", {
                 method: "GET",

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Gestion des livres</title>
+    <title>Demandes des Emprunts</title>
     <style>
 		@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 		*{
@@ -183,6 +183,11 @@
 		  .nav-links li{
 		    margin: 15px 10px;
 		  }
+		  .nav-links li a{
+		    padding: 0 20px;
+		    display: block;
+		    font-size: 20px;
+		  }
 		  .nav-links .drop-menu{
 		    position: static;
 		    opacity: 1;
@@ -262,7 +267,7 @@
 		}
 		
 		.container {
-		  max-width: 1100px;
+		  max-width: 1000px;
 		  margin-left: auto;
 		  margin-right: auto;
 		  padding-left: 10px;
@@ -284,7 +289,7 @@
 		    top: 88px;
 		    text-decoration: none;
 		}
-		.edit-librarian-btn {
+		.manage-btn {
 		    padding: 5px 10px;
 		    border: none;
 		    background: #1e90ff;
@@ -351,25 +356,19 @@
 		    box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.1);
 		  }
 		  .col-1 {
-		    flex-basis: 15%;
+		    flex-basis: 20%;
 		  }
 		  .col-2 {
 		    flex-basis: 20%;
 		  }
 		  .col-3 {
-		    flex-basis: 15%;
+		    flex-basis: 20%;
 		  }
 		  .col-4 {
-		    flex-basis: 10%;
+		    flex-basis: 20%;
 		  }
 		  .col-5 {
-		    flex-basis: 10%;
-		  }
-		  .col-6 {
-		    flex-basis: 15%;
-		  }
-		  .col-7 {
-		    flex-basis: 15%;
+		    flex-basis: 20%;
 		  }
 		  .text-center {
 		  	text-align: center;
@@ -476,8 +475,8 @@
 		}
 		
 		input[type="text"],
-		input[type="number"],
-		input[type="password"] {
+		input[type="password"],
+		select {
 		    width: 100%;
 		    padding: 8px;
 		    border: 1px solid #ddd;
@@ -533,8 +532,8 @@
             <input type="radio" name="slider" id="close-btn">
             <ul class="nav-links">
                 <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
-                <li><a href="${pageContext.request.contextPath}/books/catalog.jsp" class='active'>Livres</a></li>
-                <li><a href="${pageContext.request.contextPath}/loan/demandes.jsp">Demandes</a></li>
+                <li><a href="${pageContext.request.contextPath}/books/catalog.jsp">Livres</a></li>
+                <li><a href="${pageContext.request.contextPath}/loan/demandes.jsp" class="active">Demandes</a></li>
                 <li><a href="${pageContext.request.contextPath}/users/librarians.jsp">Bibliothécaires</a></li>
                 <li><a href="${pageContext.request.contextPath}/auth/logout.jsp">Déconnexion</a></li>
             </ul>
@@ -543,79 +542,54 @@
     </nav>
 
     <div class="container">
-        <h2>Liste des livres</h2>
-        <a class="add-librarian-btn" href="#add-book-modal">Ajouter</a>
+        <h2>Demandes des Emprunts</h2>
+        <a class="add-librarian-btn" href="#request-loan-modal">Demander un Emprunt</a>
         <ul class="responsive-table" id="responsive-table">
             <li class="table-header">
-                <div class="col col-1">Titre</div>
-                <div class="col col-2">Auteur</div>
-                <div class="col col-3">ISBN</div>
-                <div class="col col-4">Année</div>
-                <div class="col col-5">Exemplaires Totales</div>
-                <div class="col col-6">Exemplaires Disponibles</div>
-                <div class="col col-7"></div>
+                <div class="col col-1">Etudiant</div>
+                <div class="col col-2">Date de demande</div>
+                <div class="col col-3">Date de l'emprunt </div>
+                 <div class="col col-4">Date de retour</div>
+                <div class="col col-5">Statut</div>
+                <div class="col col-6"></div>
             </li>
         </ul>
     </div>
 
-    <!-- Add Book Modal -->
-    <div id="add-book-modal" class="modal">
+    <!-- Request Loan Modal -->
+    <div id="request-loan-modal" class="modal">
         <div class="modal__content">
             <div class="register-container">
-                <h1>Nouveau Livre</h1>
-                <form id="add-book-form" method="post">
+                <h1>Demander un Emprunt</h1>
+                <form id="request-loan-form" method="post">
                     <div class="form-group">
-                        <label for="titre">Titre:</label>
-                        <input type="text" id="titre" name="titre" required>
+                       <select id="books-select">
+                       </select>
                     </div>
-                    <div class="form-group">
-                        <label for="auteur">Auteur:</label>
-                        <input type="text" id="auteur" name="auteur" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="isbn">ISBN:</label>
-                        <input type="text" id="isbn" name="isbn" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="anneePublication">Année de Publication:</label>
-                        <input type="number" id="anneePublication" name="anneePublication" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="exemplairesTotal">Nombre d'exemplaires:</label>
-                        <input type="number" id="exemplairesTotal" name="exemplairesTotal" required>
-                    </div>
-                    <button type="submit">Ajouter le livre</button>
+                    <button type="submit">Demander</button>
                 </form>
             </div>
-            <a href="#" class="modal__close">×</a>
+            <a href="#" class="modal__close">&times;</a>
         </div>
     </div>
 
-    <!-- Edit Book Modal -->
-    <div id="edit-book-modal" class="modal">
+    <!-- Approve/Reject/Return Modal -->
+    <div id="manage-loan-modal" class="modal">
         <div class="modal__content">
             <div class="register-container">
-                <h1>Modifier Livre</h1>
-                <form id="edit-book-form" method="post">
+                <h1>Gérer la Demande</h1>
+                <form id="manage-loan-form" method="post">
                     <div class="form-group">
-                        <label for="edit-titre">Titre:</label>
-                        <input type="text" id="edit-titre" name="titre" required>
+                        <label for="loanId">ID de la Demande:</label>
+                        <input type="text" id="loanId" name="loanId" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="edit-auteur">Auteur:</label>
-                        <input type="text" id="edit-auteur" name="auteur" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit-isbn">ISBN:</label>
-                        <input type="text" id="edit-isbn" name="isbn" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit-anneePublication">Année de Publication:</label>
-                        <input type="number" id="edit-anneePublication" name="anneePublication" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit-exemplairesTotal">Nombre d'exemplaires total:</label>
-                        <input type="number" id="edit-exemplairesTotal" name="exemplairesTotal" required>
+                        <label for="status">Statut:</label>
+                        <select id="status" name="status">
+                            <option value="APPROVED">Approuver</option>
+                            <option value="REJECTED">Rejeter</option>
+                            <option value="RETURNED">Retourné</option>
+                        </select>
                     </div>
                     <button type="submit">Mettre à jour</button>
                 </form>
@@ -624,25 +598,25 @@
         </div>
     </div>
 
-    <!-- Delete Book Modal -->
-    <div id="delete-book-modal" class="modal">
-        <div class="modal__content">
-            <div class="register-container">
-                <h1>Supprimer un livre</h1>
-                <form id="delete-book-form" class="delete-form" method="post">
-                    <div class="form-group">
-                        <div>Êtes-vous sûr de vouloir supprimer ce livre ?</div>
-                    </div>
-                    <div class="delete-group-buttons">
-	                    <button type="button" id="cancel-delete-btn" class="delete-button-cancel">Non</button>
-	                    <button type="submit" class="delete-button">Oui</button>
-                    </div>
-                </form>
-            </div>
-            <a href="#" class="modal__close">×</a>
-        </div>
-    </div>
 
+	<script >
+	function formatDateFromArray(dateArray) {
+		if (!dateArray)
+			return "N'est pas specifier";
+	    const [year, month, day, hours, minutes, seconds, milliseconds] = dateArray;
+	    const date = new Date(year, month - 1, day, hours, minutes, seconds, milliseconds);
+
+	    const options = {
+	        year: 'numeric',
+	        month: 'long',
+	        day: 'numeric',
+
+	        timeZoneName: 'short'
+	    };
+
+	    return date.toLocaleString('fr-FR', options); 
+	}
+	</script>
     <script>
         const username = localStorage.getItem('username');
         const role = localStorage.getItem('role');
@@ -650,6 +624,89 @@
             window.location.href = "${pageContext.request.contextPath}/auth/login.jsp";
         } else {
             const table = document.getElementById('responsive-table');
+
+            // Fetch loan requests based on user role
+            const fetchLoans = () => {
+                let url, method, headers;
+                if (role === 'STUDENT') {
+                    url = "${pageContext.request.contextPath}/api/loans/user/" + username;
+                    headers = {
+                        "Content-Type": "application/json",
+                        "Authorization": "Basic " + username + ":" + localStorage.getItem('password')
+                    };
+                } else if (role === 'LIBRARIAN' || role === 'ADMIN') {
+                    url = "${pageContext.request.contextPath}/api/loans/pending";
+                    headers = {
+                        "Content-Type": "application/json",
+                        "Authorization": "Basic " + username + ":" + localStorage.getItem('password')
+                    };
+                }
+
+                fetch(url, {
+                    method: "GET",
+                    headers: headers,
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.length > 0) {
+                        for (let item of data) {
+							console.log(item);
+                            let { id, bookId, userId, requestDate, loanDate, returnDate, status } = item;
+                            let listItem = document.createElement("li");
+                            let userIdDiv = document.createElement('div');
+                            let requestDateDiv = document.createElement('div');
+                            let loanDateDiv = document.createElement('div');
+                            let returnDateDiv = document.createElement('div')
+                            let statusDiv = document.createElement('div');
+                            let actionsDiv = document.createElement('div');
+                            let manageBtn = document.createElement('a');
+
+                            listItem.classList.add('table-row');
+                            userIdDiv.classList.add('col', 'col-1');
+                            userIdDiv.textContent = userId;
+                            requestDateDiv.classList.add('col', 'col-2');
+                            requestDateDiv.textContent = formatDateFromArray(requestDate);
+                            statusDiv.classList.add('col', 'col-3');
+                            loanDateDiv.textContent = formatDateFromArray(loanDate);
+                            statusDiv.classList.add('col', 'col-4');
+                            returnDateDiv.textContent = formatDateFromArray(returnDate);
+                            statusDiv.classList.add('col', 'col-5');
+                            statusDiv.textContent = status;
+                            actionsDiv.classList.add('col', 'col-6');
+                            manageBtn.classList.add('manage-loan-btn');
+
+                            if (role === 'LIBRARIAN' || role === 'ADMIN') {
+                                manageBtn.href = '#manage-loan-modal';
+                                manageBtn.classList.add("manage-btn");
+                                manageBtn.textContent = 'Gérer';
+                                manageBtn.dataset.id = id;
+                                manageBtn.dataset.status = status;
+                                actionsDiv.append(manageBtn);
+                            }
+
+                            listItem.append( userIdDiv, requestDateDiv,loanDateDiv,returnDateDiv, statusDiv, actionsDiv);
+                            table.append(listItem);
+                        }
+
+                        document.querySelectorAll('.manage-loan-btn').forEach(btn => {
+                            btn.addEventListener('click', function(e) {
+                                document.getElementById('loanId').value = this.dataset.id;
+                                document.getElementById('status').value = this.dataset.status;
+                            });
+                        });
+                    } else {
+                        let emptyDiv = document.createElement('div');
+                        emptyDiv.classList.add('text-center');
+                        emptyDiv.textContent = "Aucune demande d'emprunt trouvée";
+                        table.append(emptyDiv);
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+            };
+            
+            const booksSelect = document.getElementById("books-select");
             fetch("${pageContext.request.contextPath}/api/books", {
                 method: "GET",
                 headers: {
@@ -660,72 +717,14 @@
             .then((data) => {
                 if (data.length > 0) {
                     for (let item of data) {
-                        let { id, titre, auteur, isbn, anneePublication, exemplairesTotal, exemplairesDisponibles } = item;
-                        let listItem = document.createElement("li");
-                        let titreDiv = document.createElement('div');
-                        let auteurDiv = document.createElement('div');
-                        let isbnDiv = document.createElement('div');
-                        let anneeDiv = document.createElement('div');
-                        let exemplairesTotalDiv = document.createElement('div');
-                        let exemplairesDisponiblesDiv = document.createElement('div');
-                        let actionsDiv = document.createElement('div');
-                        let editBtn = document.createElement('a');
-                        let deleteBtn = document.createElement('a');
-
-                        listItem.classList.add('table-row');
-                        titreDiv.classList.add('col', 'col-1');
-                        titreDiv.textContent = titre;
-                        auteurDiv.classList.add('col', 'col-2');
-                        auteurDiv.textContent = auteur;
-                        isbnDiv.classList.add('col', 'col-3');
-                        isbnDiv.textContent = isbn;
-                        anneeDiv.classList.add('col', 'col-4');
-                        anneeDiv.textContent = anneePublication;
-                        exemplairesTotalDiv.classList.add('col', 'col-5');
-                        exemplairesTotalDiv.textContent = exemplairesTotal;
-                        exemplairesDisponiblesDiv.classList.add('col', 'col-6');
-                        exemplairesDisponiblesDiv.textContent = exemplairesDisponibles;
-                        actionsDiv.classList.add('col', 'col-7');
-                        editBtn.classList.add('edit-librarian-btn');
-                        deleteBtn.classList.add('delete-librarian-btn');
-
-                        editBtn.href = '#edit-book-modal';
-                        editBtn.textContent = 'Modifier';
-                        deleteBtn.href = '#delete-book-modal';
-                        deleteBtn.textContent = 'Supprimer';
-
-                        editBtn.dataset.id = id;
-                        editBtn.dataset.titre = titre;
-                        editBtn.dataset.auteur = auteur;
-                        editBtn.dataset.isbn = isbn;
-                        editBtn.dataset.anneePublication = anneePublication;
-                        editBtn.dataset.exemplairesTotal = exemplairesTotal;
-                        editBtn.dataset.exemplairesDisponibles = exemplairesDisponibles;
-
-                        deleteBtn.dataset.id = id;
-
-                        actionsDiv.append(editBtn, deleteBtn);
-                        listItem.append(titreDiv, auteurDiv, isbnDiv, anneeDiv, exemplairesTotalDiv, exemplairesDisponiblesDiv, actionsDiv);
-                        table.append(listItem);
+                        let { id, titre } = item;
+                        let option = document.createElement("option");
+                        option.setAttribute('value', id);
+                        option.textContent = titre;
+                        option.classList.add('col', 'col-1');
+                        booksSelect.append(option);
                     }
-
-                    document.querySelectorAll('.edit-librarian-btn').forEach(btn => {
-                        btn.addEventListener('click', function(e) {
-                            document.getElementById('edit-titre').value = this.dataset.titre;
-                            document.getElementById('edit-auteur').value = this.dataset.auteur;
-                            document.getElementById('edit-isbn').value = this.dataset.isbn;
-                            document.getElementById('edit-anneePublication').value = this.dataset.anneePublication;
-                            document.getElementById('edit-exemplairesTotal').value = this.dataset.exemplairesTotal;
-                            this.dataset.originalId = this.dataset.id;
-                        });
-                    });
-
-                    document.querySelectorAll('.delete-librarian-btn').forEach(btn => {
-                        btn.addEventListener('click', function(e) {
-                            const bookId = this.dataset.id;
-                            document.getElementById('delete-book-form').dataset.id = bookId;
-                        });
-                    });
+                 
                 } else {
                     let emptyDiv = document.createElement('div');
                     emptyDiv.classList.add('text-center');
@@ -736,97 +735,113 @@
             .catch((error) => {
                 console.error("Error:", error);
             });
+
+            fetchLoans();
+            // Request Loan Form
+            const requestLoanForm = document.getElementById("request-loan-form");
+            requestLoanForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                const bookId = document.getElementById("books-select").value;
+
+                fetch("${pageContext.request.contextPath}/api/loans/request", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Basic " + username + ":" + localStorage.getItem('password')
+                    },
+                    body: JSON.stringify({ userId: username, bookId }),
+                })
+                .then((response) => {
+                    if (response.ok) {
+						alert("Votre demande a été envoyée. Veuillez attendre qu'elle soit approuvée ")
+                        window.location.href = "${pageContext.request.contextPath}/loan/demandes.jsp";
+                    } else {
+                        alert("Erreur lors de la demande d'emprunt");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+            });
+
+            // Manage Loan Form
+            const manageLoanForm = document.getElementById("manage-loan-form");
+            manageLoanForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                const loanId = document.getElementById("loanId").value;
+                const status = document.getElementById("status").value;
+
+                let url, method;
+                if (status === 'APPROVED') {
+                    url = "${pageContext.request.contextPath}/api/loans/" + loanId + "/approve";
+                    method = "PUT";
+                } else if (status === 'REJECTED') {
+                    url = "${pageContext.request.contextPath}/api/loans/" + loanId + "/reject";
+                    method = "PUT";
+                } else if (status === 'RETURNED') {
+                    url = "${pageContext.request.contextPath}/api/loans/" + loanId + "/return";
+                    method = "PUT";
+                }
+
+                fetch(url, {
+                    method: method,
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Basic " + username + ":" + localStorage.getItem('password')
+                    },
+                })
+                .then((response) => {
+                    if (response.ok) {
+                        window.location.href = "${pageContext.request.contextPath}/loan/demandes.jsp";
+                    } else {
+                        alert("Erreur lors de la mise à jour du statut");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+            });
         }
-
-        const addBookForm = document.getElementById("add-book-form");
-        addBookForm.addEventListener("submit", (e) => {
-            e.preventDefault();
-            const id = "BOOK-" + Date.now();
-            const titre = document.getElementById("titre").value;
-            const auteur = document.getElementById("auteur").value;
-            const isbn = document.getElementById("isbn").value;
-            const anneePublication = document.getElementById("anneePublication").value;
-            const exemplairesTotal = document.getElementById("exemplairesTotal").value;
-
-            fetch("${pageContext.request.contextPath}/api/books", {
-                method: "POST",
+        
+        const loadBooksOptions = () => {
+			const booksSelect = document.getElementById("books-select");
+			
+			fetch("http://localhost:8080/gestion-de-bibliotheque/api/books", {
+                method: "GET",
                 headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Basic " + username + ":" + localStorage.getItem('password'),
-                },
-                body: JSON.stringify({ id, titre, auteur, isbn, anneePublication, exemplairesTotal: Number(exemplairesTotal), exemplairesDisponibles: Number(exemplairesTotal) }),
-            })
-            .then((response) => {
-                if (response.status === 201) {
-                    window.location.href = "${pageContext.request.contextPath}/books/catalog.jsp"; 
-                } else {
-                    alert("Erreur lors de l'ajout du livre");
-                }
-                return response.json();
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
-        });
-
-        const editBookForm = document.getElementById("edit-book-form");
-        editBookForm.addEventListener("submit", (e) => {
-            e.preventDefault();
-            const titre = document.getElementById("edit-titre").value;
-            const auteur = document.getElementById("edit-auteur").value;
-            const isbn = document.getElementById("edit-isbn").value;
-            const anneePublication = document.getElementById("edit-anneePublication").value;
-            const exemplairesTotal = document.getElementById("edit-exemplairesTotal").value;
-            const originalId = document.querySelector('.edit-librarian-btn[href="#edit-book-modal"]:last-child').dataset.originalId;
-            
-            fetch("${pageContext.request.contextPath}/api/books/" + originalId, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Basic " + username + ":" + localStorage.getItem('password'),
-                },
-                body: JSON.stringify({id: originalId, titre, auteur, isbn, anneePublication, exemplairesTotal: Number(exemplairesTotal), exemplairesDisponibles: Number(exemplairesTotal) }),
-            })
-            .then((response) => {
-                if (response.ok) {
-                    window.location.href = "${pageContext.request.contextPath}/books/catalog.jsp"; 
-                } else {
-                    alert("Erreur lors de la mise à jour du livre");
-                }
-                return response.json();
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
-        });
-
-        const deleteBookForm = document.getElementById("delete-book-form");
-        deleteBookForm.addEventListener("submit", (e) => {
-            e.preventDefault();
-            const bookId = deleteBookForm.dataset.id;
-
-            fetch("${pageContext.request.contextPath}/api/books/" + bookId, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Basic " + username + ":" + localStorage.getItem('password'),
+                    "Content-Type": "application/json"
                 },
             })
-            .then((response) => {
-                if (response.ok) {
-                    window.location.href = "${pageContext.request.contextPath}/books/catalog.jsp"; 
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.length > 0) {
+                    for (let item of data) {
+                        let { id, titre, auteur, isbn, anneePublication, exemplairesTotal, exemplairesDisponibles } = item;
+                        let option = document.createElement("option");
+                        option.setAttribute('value', id);
+                        option.textContent = titre;
+                        option.classList.add('col', 'col-1');
+
+                        deleteBtn.dataset.id = id;
+
+                        actionsDiv.append(editBtn, deleteBtn);
+                        listItem.append(titreDiv, auteurDiv, isbnDiv, anneeDiv, exemplairesTotalDiv, exemplairesDisponiblesDiv, actionsDiv);
+                        table.append(listItem);
+                    }
+                 
                 } else {
-                    alert("Erreur lors de la suppression du livre");
+                    let emptyDiv = document.createElement('div');
+                    emptyDiv.classList.add('text-center');
+                    emptyDiv.textContent = "Il n'y a pas encore de livres";
+                    table.append(emptyDiv);
                 }
             })
             .catch((error) => {
                 console.error("Error:", error);
             });
-        });
 
-        document.getElementById('cancel-delete-btn').addEventListener('click', () => {
-            window.location.href = "${pageContext.request.contextPath}/books/catalog.jsp";
-        });
+        
+        }
     </script>
 </body>
 </html>
