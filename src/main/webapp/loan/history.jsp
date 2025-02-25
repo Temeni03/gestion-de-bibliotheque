@@ -1,8 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Demandes des Emprunts</title>
-    <style>
+    <title>Historique des Emprunts</title>
+   <style>
 		@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 		*{
 		  margin: 0;
@@ -562,8 +562,8 @@
             <ul class="nav-links">
                 <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
                 <li><a href="${pageContext.request.contextPath}/books/catalog.jsp">Livres</a></li>
-                <li><a href="${pageContext.request.contextPath}/loan/demandes.jsp" class="active">Demandes</a></li>
-                <li><a href="${pageContext.request.contextPath}/loan/history.jsp">Historiques</a></li>
+                <li><a href="${pageContext.request.contextPath}/loan/demandes.jsp">Demandes</a></li>
+                <li><a href="${pageContext.request.contextPath}/loan/history.jsp" class="active">Historiques</a></li>
                 <li><a href="${pageContext.request.contextPath}/users/librarians.jsp">Bibliothécaires</a></li>
                 <li><a href="${pageContext.request.contextPath}/auth/logout.jsp">Déconnexion</a></li>
             </ul>
@@ -572,80 +572,20 @@
     </nav>
 
     <div class="container">
-        <h2>Demandes des Emprunts</h2>
-        <a class="add-librarian-btn" href="#request-loan-modal">Demander un Emprunt</a>
+        <h2>Historique des Emprunts</h2>
         <ul class="responsive-table" id="responsive-table">
             <li class="table-header">
-                <div class="col col-1">Etudiant</div>
-                <div class="col col-2">Date de demande</div>
-                <div class="col col-3">Date de l'emprunt </div>
-                 <div class="col col-4">Date de retour</div>
+                <div class="col col-1">Livre</div>
+                <div class="col col-2">Utilisateur</div>
+                <div class="col col-3">Date de Demande</div>
+                <div class="col col-4">Date de Retour</div>
                 <div class="col col-5">Statut</div>
-                <div class="col col-6"></div>
             </li>
         </ul>
     </div>
 
-    <!-- Request Loan Modal -->
-    <div id="request-loan-modal" class="modal">
-        <div class="modal__content">
-            <div class="register-container">
-                <h1>Demander un Emprunt</h1>
-                <form id="request-loan-form" method="post">
-                    <div class="form-group">
-                    	<label for="status">Choisir un livre:</label>
-                       <select id="books-select">
-                       </select>
-                    </div>
-                    <button type="submit">Demander</button>
-                </form>
-            </div>
-            <a href="#" class="modal__close">&times;</a>
-        </div>
-    </div>
 
-    <!-- Approve/Reject/Return Modal -->
-    <div id="manage-loan-modal" class="modal">
-        <div class="modal__content">
-            <div class="register-container">
-                <h1>Gérer la Demande</h1>
-                <form id="manage-loan-form" method="post">
-                    <div class="form-group">
-                        <label for="loanId">ID de la Demande:</label>
-                        <input type="text" id="loanId" name="loanId" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="status">Statut:</label>
-                        <select id="status" name="status">
-                            <option value="APPROVED">Approuver</option>
-                            <option value="REJECTED">Rejeter</option>
-                            <option value="RETURNED">Retourné</option>
-                        </select>
-                    </div>
-                    <button type="submit">Mettre à jour</button>
-                </form>
-            </div>
-            <a href="#" class="modal__close">×</a>
-        </div>
-    </div>
-
-
-	<script >
-		function formatDateFromArray(dateArray) {
-			if (!dateArray)
-				return "--";
-		    const [year, month, day, hours, minutes, seconds, milliseconds] = dateArray;
-		    const date = new Date(year, month - 1, day, hours, minutes, seconds, milliseconds);
-	
-		    const options = {
-		        year: 'numeric',
-		        month: 'long',
-		        day: 'numeric',
-			    };
-	
-		    return date.toLocaleString('fr-FR', options); 
-		}
-		
+	<script>
 		function formatStatus(status) {
 			if (status === 'REQUESTED')
 				return {message: 'DEMANDÉ', className: 'status-requested-style'};
@@ -658,7 +598,6 @@
 			else 
 				return {message: 'NA', className: ''}
 		}
-	
 	</script>
     <script>
         const username = localStorage.getItem('username');
@@ -668,22 +607,31 @@
         } else {
             const table = document.getElementById('responsive-table');
 
-            // Fetch loan requests based on user role
-            const fetchLoans = () => {
-                let url, method, headers;
+            // Function to format date array into a readable string
+            function formatDateFromArray(dateArray) {
+                const [year, month, day, hours, minutes, seconds, milliseconds] = dateArray;
+                const date = new Date(year, month - 1, day, hours, minutes, seconds, milliseconds);
+                const options = {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                };
+                return date.toLocaleString('fr-FR', options);
+            }
+
+            // Fetch loan history based on user role
+            const fetchLoanHistory = () => {
+                let url, headers;
                 if (role === 'STUDENT') {
                     url = "${pageContext.request.contextPath}/api/loans/user/" + username;
-                    headers = {
-                        "Content-Type": "application/json",
-                        "Authorization": "Basic " + username + ":" + localStorage.getItem('password')
-                    };
                 } else if (role === 'LIBRARIAN' || role === 'ADMIN') {
-                    url = "${pageContext.request.contextPath}/api/loans";
-                    headers = {
-                        "Content-Type": "application/json",
-                        "Authorization": "Basic " + username + ":" + localStorage.getItem('password')
-                    };
+                    url = "${pageContext.request.contextPath}/api/loans/history";
                 }
+
+                headers = {
+                    "Content-Type": "application/json",
+                    "Authorization": "Basic " + username + ":" + localStorage.getItem('password')
+                };
 
                 fetch(url, {
                     method: "GET",
@@ -693,57 +641,38 @@
                 .then((data) => {
                     if (data.length > 0) {
                         for (let item of data) {
-							console.log(item);
-                            let { id, bookId, userId, requestDate, loanDate, returnDate, status } = item;
-                            let listItem = document.createElement("li");
-                            let userIdDiv = document.createElement('div');
-                            let requestDateDiv = document.createElement('div');
-                            let loanDateDiv = document.createElement('div');
-                            let returnDateDiv = document.createElement('div')
-                            let statusDiv = document.createElement('div');
-                            let actionsDiv = document.createElement('div');
-                            let manageBtn = document.createElement('a');
-                            let {message, className } = formatStatus(status);
-                            
-                            console.log({message, className})
+                            let { bookId, userId, requestDate, returnDate, status } = item;
 
-                            listItem.classList.add('table-row');
-                            userIdDiv.classList.add('col', 'col-1');
-                            userIdDiv.textContent = userId;
-                            requestDateDiv.classList.add('col', 'col-2');
-                            requestDateDiv.textContent = formatDateFromArray(requestDate);
-                            statusDiv.classList.add('col', 'col-3');
-                            loanDateDiv.textContent = formatDateFromArray(loanDate);
-                            statusDiv.classList.add('col', 'col-4');
-                            returnDateDiv.textContent = formatDateFromArray(returnDate);
-                            statusDiv.classList.add('col', 'col-5', className);
-                            statusDiv.textContent = message;
-                            actionsDiv.classList.add('col', 'col-6');
-                            manageBtn.classList.add('manage-loan-btn');
+                            // Only display REJECTED and RETURNED loans
+                            if (status === 'REJECTED' || status === 'RETURNED') {
+                                let listItem = document.createElement("li");
+                                let bookIdDiv = document.createElement('div');
+                                let userIdDiv = document.createElement('div');
+                                let requestDateDiv = document.createElement('div');
+                                let returnDateDiv = document.createElement('div');
+                                let statusDiv = document.createElement('div');
+                                let {message, className } = formatStatus(status);
 
-                            if (role === 'LIBRARIAN' || role === 'ADMIN') {
-                                manageBtn.href = '#manage-loan-modal';
-                                manageBtn.classList.add("manage-btn");
-                                manageBtn.textContent = 'Gérer';
-                                manageBtn.dataset.id = id;
-                                manageBtn.dataset.status = status;
-                                actionsDiv.append(manageBtn);
+                                listItem.classList.add('table-row');
+                                bookIdDiv.classList.add('col', 'col-1');
+                                bookIdDiv.textContent = bookId;
+                                userIdDiv.classList.add('col', 'col-2');
+                                userIdDiv.textContent = userId;
+                                requestDateDiv.classList.add('col', 'col-3');
+                                requestDateDiv.textContent = formatDateFromArray(requestDate);
+                                returnDateDiv.classList.add('col', 'col-4');
+                                returnDateDiv.textContent = returnDate ? formatDateFromArray(returnDate) : 'N/A';
+                                statusDiv.classList.add('col', 'col-5', className);
+                                statusDiv.textContent = message;
+
+                                listItem.append(bookIdDiv, userIdDiv, requestDateDiv, returnDateDiv, statusDiv);
+                                table.append(listItem);
                             }
-
-                            listItem.append( userIdDiv, requestDateDiv,loanDateDiv,returnDateDiv, statusDiv, actionsDiv);
-                            table.append(listItem);
                         }
-
-                        document.querySelectorAll('.manage-loan-btn').forEach(btn => {
-                            btn.addEventListener('click', function(e) {
-                                document.getElementById('loanId').value = this.dataset.id;
-                                document.getElementById('status').value = this.dataset.status;
-                            });
-                        });
                     } else {
                         let emptyDiv = document.createElement('div');
                         emptyDiv.classList.add('text-center');
-                        emptyDiv.textContent = "Aucune demande d'emprunt trouvée";
+                        emptyDiv.textContent = "Aucun historique d'emprunt trouvé";
                         table.append(emptyDiv);
                     }
                 })
@@ -751,142 +680,8 @@
                     console.error("Error:", error);
                 });
             };
-            
-            const booksSelect = document.getElementById("books-select");
-            fetch("${pageContext.request.contextPath}/api/books", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-            })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.length > 0) {
-                    for (let item of data) {
-                        let { id, titre } = item;
-                        let option = document.createElement("option");
-                        option.setAttribute('value', id);
-                        option.textContent = titre;
-                        option.classList.add('col', 'col-1');
-                        booksSelect.append(option);
-                    }
-                 
-                } else {
-                    let emptyDiv = document.createElement('div');
-                    emptyDiv.classList.add('text-center');
-                    emptyDiv.textContent = "Il n'y a pas encore de livres";
-                    table.append(emptyDiv);
-                }
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
 
-            fetchLoans();
-            // Request Loan Form
-            const requestLoanForm = document.getElementById("request-loan-form");
-            requestLoanForm.addEventListener("submit", (e) => {
-                e.preventDefault();
-                const bookId = document.getElementById("books-select").value;
-
-                fetch("${pageContext.request.contextPath}/api/loans/request", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": "Basic " + username + ":" + localStorage.getItem('password')
-                    },
-                    body: JSON.stringify({ userId: username, bookId }),
-                })
-                .then((response) => {
-                    if (response.ok) {
-						alert("Votre demande a été envoyée. Veuillez attendre qu'elle soit approuvée ")
-                        window.location.href = "${pageContext.request.contextPath}/loan/demandes.jsp";
-                    } else {
-                        alert("Erreur lors de la demande d'emprunt");
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error:", error);
-                });
-            });
-
-            // Manage Loan Form
-            const manageLoanForm = document.getElementById("manage-loan-form");
-            manageLoanForm.addEventListener("submit", (e) => {
-                e.preventDefault();
-                const loanId = document.getElementById("loanId").value;
-                const status = document.getElementById("status").value;
-
-                let url, method;
-                if (status === 'APPROVED') {
-                    url = "${pageContext.request.contextPath}/api/loans/" + loanId + "/approve";
-                    method = "PUT";
-                } else if (status === 'REJECTED') {
-                    url = "${pageContext.request.contextPath}/api/loans/" + loanId + "/reject";
-                    method = "PUT";
-                } else if (status === 'RETURNED') {
-                    url = "${pageContext.request.contextPath}/api/loans/" + loanId + "/return";
-                    method = "PUT";
-                }
-
-                fetch(url, {
-                    method: method,
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": "Basic " + username + ":" + localStorage.getItem('password')
-                    },
-                })
-                .then((response) => {
-                    if (response.ok) {
-                        window.location.href = "${pageContext.request.contextPath}/loan/demandes.jsp";
-                    } else {
-                        alert("Erreur lors de la mise à jour du statut");
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error:", error);
-                });
-            });
-        }
-        
-        const loadBooksOptions = () => {
-			const booksSelect = document.getElementById("books-select");
-			
-			fetch("http://localhost:8080/gestion-de-bibliotheque/api/books", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-            })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.length > 0) {
-                    for (let item of data) {
-                        let { id, titre, auteur, isbn, anneePublication, exemplairesTotal, exemplairesDisponibles } = item;
-                        let option = document.createElement("option");
-                        option.setAttribute('value', id);
-                        option.textContent = titre;
-                        option.classList.add('col', 'col-1');
-
-                        deleteBtn.dataset.id = id;
-
-                        actionsDiv.append(editBtn, deleteBtn);
-                        listItem.append(titreDiv, auteurDiv, isbnDiv, anneeDiv, exemplairesTotalDiv, exemplairesDisponiblesDiv, actionsDiv);
-                        table.append(listItem);
-                    }
-                 
-                } else {
-                    let emptyDiv = document.createElement('div');
-                    emptyDiv.classList.add('text-center');
-                    emptyDiv.textContent = "Il n'y a pas encore de livres";
-                    table.append(emptyDiv);
-                }
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
-
-        
+            fetchLoanHistory();
         }
     </script>
 </body>

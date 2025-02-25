@@ -121,4 +121,16 @@ public class LoanResource {
         List<Loan> loans = loanService.getPendingLoans();
         return Response.ok(loans).build();
     }
+    @GET
+    @Path("/approved")
+    public Response getApprovedLoans() {
+        List<Loan> loans = loanService.getApprovedLoans();
+        return Response.ok(loans).build();
+    }
+    @GET
+    @Path("/history")
+    public Response getLoansHistory() {
+        List<Loan> loans = loanService.getLoansHistory();
+        return Response.ok(loans).build();
+    }
 } 

@@ -281,6 +281,7 @@
 		}
 		.welcom-text-name {
 			color: #0fccce;
+			text-transform: capitalize;
 		}
 	</style>
 </head>
@@ -294,6 +295,7 @@
 	      <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
 	      <li><a href="${pageContext.request.contextPath}/books/catalog.jsp">Livres</a></li>
 	      <li><a href="${pageContext.request.contextPath}/loan/demandes.jsp">Demandes</a></li>
+	      <li><a href="${pageContext.request.contextPath}/loan/history.jsp">Historiques</a></li>
 	      <li><a  href="${pageContext.request.contextPath}/users/librarians.jsp">Bibliothécaires</a></li>
 	      <li><a  href="${pageContext.request.contextPath}/auth/logout.jsp">Déconnexion</a></li>
 	    </ul>

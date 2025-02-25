@@ -118,6 +118,17 @@ public class LoanService {
             .filter(loan -> "REQUESTED".equals(loan.getStatus()))
             .collect(Collectors.toList());
     }
+    public List<Loan> getLoansHistory() {
+        return loans.values().stream()
+            .filter(loan -> "RETURNED".equals(loan.getStatus()) || "REJECTED".equals(loan.getStatus()))
+            .collect(Collectors.toList());
+    }
+    
+    public List<Loan> getApprovedLoans() {
+    	return loans.values().stream()
+                .filter(loan -> "APPROVED".equals(loan.getStatus()))
+                .collect(Collectors.toList());
+    }
     
     /**
      * Obtenir un prêt par son ID
