@@ -294,9 +294,9 @@
 	    <ul class="nav-links">
 	      <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
 	      <li><a href="${pageContext.request.contextPath}/books/catalog.jsp">Livres</a></li>
-	      <li><a href="${pageContext.request.contextPath}/loan/demandes.jsp">Demandes</a></li>
-	      <li><a href="${pageContext.request.contextPath}/loan/history.jsp">Historiques</a></li>
-	      <li><a  href="${pageContext.request.contextPath}/users/librarians.jsp">Bibliothécaires</a></li>
+		  <li><a href="${pageContext.request.contextPath}/loan/demandes.jsp" id="demandes-link">Demandes</a></li>
+          <li><a href="${pageContext.request.contextPath}/loan/history.jsp">Historiques</a></li>
+          <li><a href="${pageContext.request.contextPath}/users/librarians.jsp" id="librarians-link">Bibliothécaires</a></li>
 	      <li><a  href="${pageContext.request.contextPath}/auth/logout.jsp">Déconnexion</a></li>
 	    </ul>
 	    <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
@@ -309,10 +309,19 @@
     
 	
     <script>
-        // Check if user is logged in
+
         const username = localStorage.getItem("username");
+        const role = localStorage.getItem("role");
         const prenom = localStorage.getItem('prenom');
         const nom = localStorage.getItem('nom');
+        
+        
+        const librariansLink = document.getElementById("librarians-link");
+        
+        if (role != 'LIBRARIAN' || role != 'ADMIN') {
+			librariansLink.style.display = 'none';
+        }
+        
         if (!username) {
             window.location.href = "${pageContext.request.contextPath}/auth/login.jsp";
         } else {

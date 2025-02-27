@@ -534,9 +534,9 @@
             <ul class="nav-links">
                 <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
                 <li><a href="${pageContext.request.contextPath}/books/catalog.jsp" class='active'>Livres</a></li>
-                <li><a href="${pageContext.request.contextPath}/loan/demandes.jsp">Demandes</a></li>
+                <li><a href="${pageContext.request.contextPath}/loan/demandes.jsp" id="demandes-link">Demandes</a></li>
                 <li><a href="${pageContext.request.contextPath}/loan/history.jsp">Historiques</a></li>
-                <li><a href="${pageContext.request.contextPath}/users/librarians.jsp">Bibliothécaires</a></li>
+                <li><a href="${pageContext.request.contextPath}/users/librarians.jsp" id="librarians-link">Bibliothécaires</a></li>
                 <li><a href="${pageContext.request.contextPath}/auth/logout.jsp">Déconnexion</a></li>
             </ul>
             <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
@@ -545,7 +545,7 @@
 
     <div class="container">
         <h2>Liste des livres</h2>
-        <a class="add-librarian-btn" href="#add-book-modal">Ajouter</a>
+        <a class="add-librarian-btn" href="#add-book-modal" id="add-book-btn">Ajouter</a>
         <ul class="responsive-table" id="responsive-table">
             <li class="table-header">
                 <div class="col col-1">Titre</div>
@@ -559,7 +559,6 @@
         </ul>
     </div>
 
-    <!-- Add Book Modal -->
     <div id="add-book-modal" class="modal">
         <div class="modal__content">
             <div class="register-container">
@@ -592,7 +591,6 @@
         </div>
     </div>
 
-    <!-- Edit Book Modal -->
     <div id="edit-book-modal" class="modal">
         <div class="modal__content">
             <div class="register-container">
@@ -625,7 +623,6 @@
         </div>
     </div>
 
-    <!-- Delete Book Modal -->
     <div id="delete-book-modal" class="modal">
         <div class="modal__content">
             <div class="register-container">
@@ -647,6 +644,15 @@
     <script>
         const username = localStorage.getItem('username');
         const role = localStorage.getItem('role');
+        
+        const addBookBtn = document.getElementById('add-book-btn');
+        const librariansLink = document.getElementById("librarians-link");
+        
+        if (role != 'ADMIN') {
+			librariansLink.style.display = 'none';
+			addBookBtn.style.display = 'none';
+        }
+        
         if (!username) {
             window.location.href = "${pageContext.request.contextPath}/auth/login.jsp";
         } else {

@@ -6,14 +6,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.io.Serializable;
 
-/**
- * Classe représentant un utilisateur dans le système
- */
+
 @Entity
 public class User implements Serializable {
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -27,7 +22,6 @@ public class User implements Serializable {
     private String password;
     private String role = "ETUDIANT"; // ADMIN, BIBLIOTHECAIRE, ETUDIANT
 
-    // Constructeurs
     public User() {}
 
     public User(String nom, String prenom, String matricule, String username, String password) {
@@ -38,7 +32,6 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    // Getters et Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

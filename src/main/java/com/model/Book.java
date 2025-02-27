@@ -2,13 +2,8 @@ package com.model;
 
 import java.io.Serializable;
 
-/**
- * Classe représentant un livre dans le catalogue
- */
 public class Book implements Serializable {
-    /**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private String id;
     private String titre;
@@ -18,14 +13,12 @@ public class Book implements Serializable {
     private int exemplairesDisponibles;
     private int exemplairesTotal;
 
-    // Constructeurs
     public Book() {
-        // Générer un ID par défaut pour les nouvelles instances
         this.id = "BOOK-" + System.currentTimeMillis();
     }
 
     public Book(String titre, String auteur, String isbn, int anneePublication, int exemplairesTotal) {
-        this();  // Appeler le constructeur par défaut pour générer l'ID
+        this();  
         this.titre = titre;
         this.auteur = auteur;
         this.isbn = isbn;
@@ -34,7 +27,6 @@ public class Book implements Serializable {
         this.exemplairesDisponibles = exemplairesTotal;
     }
 
-    // Getters et Setters
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 

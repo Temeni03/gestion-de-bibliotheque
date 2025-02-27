@@ -5,9 +5,6 @@ import jakarta.ws.rs.core.Application;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Configuration de l'application JAX-RS
- */
 @ApplicationPath("/api")
 public class LibraryApplication extends Application {
     @Override

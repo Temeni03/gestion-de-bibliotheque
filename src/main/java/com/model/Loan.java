@@ -14,11 +14,9 @@ public class Loan {
     public Loan() {
         this.requestDate = LocalDateTime.now();
         this.status = "REQUESTED";
-        // Generate a unique ID using timestamp
         this.id = String.valueOf(System.currentTimeMillis());
     }
     
-    // Getters and Setters
     public String getId() {
         return id;
     }

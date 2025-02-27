@@ -23,9 +23,7 @@ public class LoanService {
         return instance;
     }
     
-    /**
-     * Créer une demande de prêt
-     */
+
     public Loan requestLoan(String userId, String bookId) {
         Book book = bookService.getBookById(bookId);
         if (book == null || book.getExemplairesDisponibles() <= 0) {
@@ -39,9 +37,7 @@ public class LoanService {
         return loan;
     }
     
-    /**
-     * Approuver un prêt (par un bibliothécaire)
-     */
+  
     public boolean approveLoan(String loanId) {
         Loan loan = loans.get(loanId);
         if (loan == null || !"REQUESTED".equals(loan.getStatus())) {
@@ -60,9 +56,7 @@ public class LoanService {
         return true;
     }
     
-    /**
-     * Rejeter un prêt (par un bibliothécaire)
-     */
+  
     public boolean rejectLoan(String loanId) {
         Loan loan = loans.get(loanId);
         if (loan == null || !"REQUESTED".equals(loan.getStatus())) {
@@ -73,9 +67,7 @@ public class LoanService {
         return true;
     }
     
-    /**
-     * Retourner un livre (par un bibliothécaire)
-     */
+   
     public boolean returnBook(String loanId) {
         Loan loan = loans.get(loanId);
         if (loan == null || !"APPROVED".equals(loan.getStatus())) {
@@ -94,25 +86,18 @@ public class LoanService {
         return true;
     }
     
-    /**
-     * Obtenir tous les prêts
-     */
+ 
     public List<Loan> getAllLoans() {
         return new ArrayList<>(loans.values());
     }
     
-    /**
-     * Obtenir les prêts d'un utilisateur
-     */
+  
     public List<Loan> getUserLoans(String userId) {
         return loans.values().stream()
             .filter(loan -> loan.getUserId().equals(userId))
             .collect(Collectors.toList());
     }
     
-    /**
-     * Obtenir les prêts en attente
-     */
     public List<Loan> getPendingLoans() {
         return loans.values().stream()
             .filter(loan -> "REQUESTED".equals(loan.getStatus()))
@@ -130,9 +115,6 @@ public class LoanService {
                 .collect(Collectors.toList());
     }
     
-    /**
-     * Obtenir un prêt par son ID
-     */
     public Loan getLoanById(String loanId) {
         return loans.get(loanId);
     }

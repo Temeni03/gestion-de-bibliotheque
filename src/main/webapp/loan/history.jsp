@@ -562,9 +562,9 @@
             <ul class="nav-links">
                 <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
                 <li><a href="${pageContext.request.contextPath}/books/catalog.jsp">Livres</a></li>
-                <li><a href="${pageContext.request.contextPath}/loan/demandes.jsp">Demandes</a></li>
-                <li><a href="${pageContext.request.contextPath}/loan/history.jsp" class="active">Historiques</a></li>
-                <li><a href="${pageContext.request.contextPath}/users/librarians.jsp">Bibliothécaires</a></li>
+                <li><a href="${pageContext.request.contextPath}/loan/demandes.jsp" id="demandes-link">Demandes</a></li>
+                <li><a href="${pageContext.request.contextPath}/loan/history.jsp" class='active'>Historiques</a></li>
+                <li><a href="${pageContext.request.contextPath}/users/librarians.jsp" id="librarians-link">Bibliothécaires</a></li>
                 <li><a href="${pageContext.request.contextPath}/auth/logout.jsp">Déconnexion</a></li>
             </ul>
             <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
@@ -602,12 +602,19 @@
     <script>
         const username = localStorage.getItem('username');
         const role = localStorage.getItem('role');
+        
+        const librariansLink = document.getElementById("librarians-link");
+        
+        if (role != 'ADMIN') {
+			librariansLink.style.display = 'none';
+        }
+        
         if (!username) {
             window.location.href = "${pageContext.request.contextPath}/auth/login.jsp";
         } else {
             const table = document.getElementById('responsive-table');
 
-            // Function to format date array into a readable string
+            
             function formatDateFromArray(dateArray) {
                 const [year, month, day, hours, minutes, seconds, milliseconds] = dateArray;
                 const date = new Date(year, month - 1, day, hours, minutes, seconds, milliseconds);
@@ -619,7 +626,7 @@
                 return date.toLocaleString('fr-FR', options);
             }
 
-            // Fetch loan history based on user role
+            
             const fetchLoanHistory = () => {
                 let url, headers;
                 if (role === 'STUDENT') {
@@ -643,7 +650,7 @@
                         for (let item of data) {
                             let { bookId, userId, requestDate, returnDate, status } = item;
 
-                            // Only display REJECTED and RETURNED loans
+                            
                             if (status === 'REJECTED' || status === 'RETURNED') {
                                 let listItem = document.createElement("li");
                                 let bookIdDiv = document.createElement('div');

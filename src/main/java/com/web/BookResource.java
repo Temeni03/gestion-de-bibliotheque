@@ -7,9 +7,6 @@ import com.model.Book;
 import com.service.BookService;
 import java.util.List;
 
-/**
- * Endpoint REST pour la gestion du catalogue de livres
- */
 @Path("/books")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -17,18 +14,12 @@ public class BookResource {
     
     private final BookService bookService = BookService.getInstance();
     
-    /**
-     * Récupérer tous les livres du catalogue
-     */
     @GET
     public Response getAllBooks() {
         List<Book> books = bookService.getAllBooks();
         return Response.ok(books).build();
     }
     
-    /**
-     * Récupérer un livre par son ID
-     */
     @GET
     @Path("/{id}")
     public Response getBook(@PathParam("id") String id) {
@@ -42,9 +33,6 @@ public class BookResource {
             .build();
     }
     
-    /**
-     * Ajouter un nouveau livre (réservé à l'administrateur)
-     */
     @POST
     public Response addBook(Book book) {
         if (book.getTitre() == null || book.getAuteur() == null || 
@@ -70,9 +58,7 @@ public class BookResource {
         }
     }
     
-    /**
-     * Mettre à jour un livre existant (réservé à l'administrateur)
-     */
+ 
     @PUT
     @Path("/{id}")
     public Response updateBook(@PathParam("id") String id, Book book) {
@@ -96,9 +82,7 @@ public class BookResource {
         }
     }
     
-    /**
-     * Supprimer un livre (réservé à l'administrateur)
-     */
+  
     @DELETE
     @Path("/{id}")
     public Response deleteBook(@PathParam("id") String id) {
