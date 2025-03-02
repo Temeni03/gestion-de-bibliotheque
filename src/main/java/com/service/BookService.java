@@ -12,8 +12,8 @@ public class BookService {
     private final Map<String, Book> books = new ConcurrentHashMap<>();
     
     private BookService() {
-        addBook(new Book("Le Petit Prince", "Antoine de Saint-Exupéry", "978-2-07-040850-4", 1943, 5));
-        addBook(new Book("Les Misérables", "Victor Hugo", "978-2-253-09634-8", 1862, 3));
+        addBook(new Book("Mothers and Sons", "Adam Hastell", "7885-645-145-102", 2025, 50));
+        addBook(new Book("Vantage Points", "Sarah Sligar", "178-2-780-09634-8", 2025, 20));
     }
     
     public static BookService getInstance() {
