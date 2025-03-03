@@ -634,16 +634,10 @@
 		function formatDateFromArray(dateArray) {
 			if (!dateArray)
 				return "--";
-		    const [year, month, day, hours, minutes, seconds, milliseconds] = dateArray;
-		    const date = new Date(year, month - 1, day, hours, minutes, seconds, milliseconds);
+		    const [year, month, day] = dateArray;
+		    
 	
-		    const options = {
-		        year: 'numeric',
-		        month: 'long',
-		        day: 'numeric',
-			    };
-	
-		    return date.toLocaleString('fr-FR', options); 
+		    return day + "-" + month + "-" + year; 
 		}
 		
 		function formatStatus(status) {

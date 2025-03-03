@@ -784,7 +784,7 @@
             const isbn = document.getElementById("edit-isbn").value;
             const anneePublication = document.getElementById("edit-anneePublication").value;
             const exemplairesTotal = document.getElementById("edit-exemplairesTotal").value;
-            const originalId = document.querySelector('.edit-librarian-btn[href="#edit-book-modal"]:last-child').dataset.originalId;
+            const originalId = document.querySelector('.edit-librarian-btn[href="#edit-book-modal"]').dataset.originalId;
             
             fetch("${pageContext.request.contextPath}/api/books/" + originalId, {
                 method: "PUT",
