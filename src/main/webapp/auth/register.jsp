@@ -43,6 +43,7 @@
 		}
 		
 		input[type="text"],
+		input[type='email'],
 		input[type="password"] {
 		    width: 100%;
 		    padding: 8px;
@@ -125,6 +126,10 @@
                 <input type="text" id="prenom" name="prenom" required>
             </div>
             <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
                 <label for="username">Matricule:</label>
                 <input type="text" id="matricule" name="matricule" required>
             </div>
@@ -145,18 +150,16 @@
 			  const username = document.getElementById("username").value;
 			  const nom = document.getElementById("nom").value;
 			  const prenom = document.getElementById("prenom").value;
+			  const email = document.getElementById("email").value;
 			  const matricule = document.getElementById("matricule").value;
 			  const password = document.getElementById("password").value;
-	
-			  console.log("Username:", username);
-			  console.log("Password:", password);
-			  
+
 			  fetch("${pageContext.request.contextPath}/api/users/register/", {
 			        method: "POST",
 			        headers: {
 			            "Content-Type": "application/json",
 			        },
-			        body: JSON.stringify({ username, nom, prenom, matricule, password }),
+			        body: JSON.stringify({ username, nom, prenom,email, matricule, password }),
 			    })
 			        .then((response) => {
 					    console.log(response);

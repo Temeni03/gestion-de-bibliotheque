@@ -17,6 +17,7 @@ public class User implements Serializable {
     
     private String nom;
     private String prenom;
+    private String email;
     private String matricule;
     private String username;
     private String password;
@@ -24,9 +25,10 @@ public class User implements Serializable {
 
     public User() {}
 
-    public User(String nom, String prenom, String matricule, String username, String password) {
+    public User(String nom, String prenom, String email, String matricule, String username, String password) {
         this.nom = nom;
         this.prenom = prenom;
+        this.email = email;
         this.matricule = matricule;
         this.username = username;
         this.password = password;
@@ -40,6 +42,9 @@ public class User implements Serializable {
 
     public String getPrenom() { return prenom; }
     public void setPrenom(String prenom) { this.prenom = prenom; }
+    
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
     public String getMatricule() { return matricule; }
     public void setMatricule(String matricule) { this.matricule = matricule; }

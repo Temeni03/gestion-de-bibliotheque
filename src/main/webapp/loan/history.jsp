@@ -290,7 +290,7 @@
 		    text-decoration: none;
 		}
 		.manage-btn {
-		    padding: 5px 10px;
+		    padding: 5px 10px; 
 		    border: none;
 		    background: #1e90ff;
 		    border-radius: 7px;
@@ -616,15 +616,13 @@
 
             
             function formatDateFromArray(dateArray) {
-                const [year, month, day, hours, minutes, seconds, milliseconds] = dateArray;
-                const date = new Date(year, month - 1, day, hours, minutes, seconds, milliseconds);
-                const options = {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                };
-                return date.toLocaleString('fr-FR', options);
-            }
+    			if (!dateArray)
+    				return "--";
+    		    const [year, month, day] = dateArray;
+    		    
+    	
+    		    return day + "-" + month + "-" + year; 
+    		}
 
             
             const fetchLoanHistory = () => {

@@ -19,6 +19,7 @@ public class AuthService {
         admin.setPassword("admin");
         admin.setNom("Admin");
         admin.setPrenom("System");
+        admin.setEmail("admin@gmail.com");
         admin.setRole("ADMIN");
         users.put(admin.getUsername(), admin);
     }

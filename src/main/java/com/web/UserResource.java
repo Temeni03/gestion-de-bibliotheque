@@ -20,7 +20,7 @@ public class UserResource {
     @Path("/register")
     public Response registerUser(User user) {
         if (user.getUsername() == null || user.getPassword() == null || 
-            user.getNom() == null || user.getPrenom() == null || 
+            user.getNom() == null || user.getPrenom() == null || user.getEmail() == null || 
             user.getMatricule() == null) {
             return Response
                 .status(Response.Status.BAD_REQUEST)
@@ -59,6 +59,7 @@ public class UserResource {
             response.put("role", user.getRole());
             response.put("nom", user.getNom());
             response.put("prenom", user.getPrenom());
+            response.put("email", user.getEmail());
             return Response.ok(response).build();
         } else {
             return Response
